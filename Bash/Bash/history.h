@@ -8,10 +8,9 @@
 
 #ifndef history_h
 #define history_h
-
-#include <stdio.h>
-void displayHistory();
-void writeToHistory(char [], size_t);
+void displayHistory(char*[], size_t);
+void writeToHistoryTemp(char*[],char*, size_t);
+void writeToHistoryFile(char*[]);
 int numHistory();
 size_t countHistory();
 void initializeBuffer(char*[], size_t);

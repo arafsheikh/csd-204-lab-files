@@ -10,18 +10,18 @@
 //my code
 #include "history.h"
 void stringTokeniser(char*[], char[]);
-void executeFunc(char*[]);
+void executeFunc(char*[], char*[], size_t);
 
 //
-
-int main(void){
+int main(){
     char *args[MAX_LINE/2 + 1]; /* command line arguments */
     int should_run = 1; /* flag to determine when to exit program */
     //my code
     size_t his_num = 0;
     char temp_string[MAX_LINE]; /* temporarily stores input */
     his_num = countHistory();
-    char *histoyBuffer[20] = initializeBuffer(histoyBuffer, his_num);
+    char *histoyBuffer[10];
+    initializeBuffer(histoyBuffer, his_num);
     //
     while (should_run) {
         
@@ -31,9 +31,16 @@ int main(void){
         stringTokeniser(args,temp_string); /* parse string and save
                                                 into args*/
         
-        writeToHistory(temp_string, his_num++);
-        printf("%zu",his_num);
-        executeFunc(args);
+        writeToHistoryTemp(histoyBuffer, temp_string, his_num++);
+        
+        //displayHistory(histoyBuffer, his_num);
+        
+        //printf("done");
+        //fflush(stdout);
+        //return 0;
+        //
+        //printf("%zu",his_num);
+        executeFunc(args, histoyBuffer, his_num);
         //should_run = 0;
         //
         fflush(stdout);
@@ -46,10 +53,9 @@ int main(void){
          *  Explain your steps as comments in the code itself.
          */
     }
-    //save history file before closing
+    writeToHistoryFile(histoyBuffer); //save history file before closing
     return 0;
 }
-
 //my code
 void stringTokeniser(char*args[], char s[]){
     char *token = strtok(s, " ");
@@ -68,9 +74,10 @@ void stringTokeniser(char*args[], char s[]){
     args[i] = NULL;
 }
 
-void executeFunc(char*args[]){
+void executeFunc(char*args[], char*hisBuff[], size_t hisNum){
     if(!strcmp(args[0], "history")){
-        displayHistory();
+        //write to file
+        displayHistory(hisBuff, hisNum);
     }
     /*
     else if(!strcmp(args[0][0], "!")){
