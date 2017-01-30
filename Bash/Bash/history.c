@@ -30,7 +30,7 @@ void stringTokeniser(char*args[], char s[]){ /*splits s[] into words and saves i
     args[i] = NULL;
 }
 
-size_t countHistory(){
+size_t countHistory(){ /* returns number of lines in history*/
     size_t count = 0, len;
     FILE *f = fopen(HISTORY_FILE, "r");
     char *line;
@@ -43,25 +43,26 @@ size_t countHistory(){
     return count;
 }
 
-void writeToBuffer(char* historyBuffer[], size_t *hisBufferPoint, char temp_string[]){
-    historyBuffer[*hisBufferPoint] = (char*)malloc(80);
-    strcpy(historyBuffer[*hisBufferPoint], temp_string);
-    ++*hisBufferPoint;
-    if(*hisBufferPoint == 10){
-        writeToHistoryFile(historyBuffer, hisBufferPoint);
+void writeToBuffer(char* historyBuffer[], size_t *hisBufferNextPosition, char temp_string[]){
+    //printf("in writeToBuffer string: %s", temp_string);
+    historyBuffer[*hisBufferNextPosition] = (char*)malloc(80);
+    strcpy(historyBuffer[*hisBufferNextPosition], temp_string);
+    ++*hisBufferNextPosition;
+    if(*hisBufferNextPosition == 10){
+        writeToHistoryFile(historyBuffer, hisBufferNextPosition);
     }
     //historyBuffer[hisBufferPoint]
 }
 
-int writeToHistoryFile(char* hisBuffer[], size_t *hisBufferPoint){
+int writeToHistoryFile(char* hisBuffer[], size_t *hisBufferNextPosition){ /*store buffer in history and re-initialize the stariting point of buffer*/
     size_t i;
     FILE *f = fopen(HISTORY_FILE, "a");
     if(f!=NULL){
-        for (i=0; i<*hisBufferPoint; i++) {
+        for (i=0; i<*hisBufferNextPosition; i++) {
             fprintf(f, "%s\n", hisBuffer[i]);
         }
     }
-    *hisBufferPoint = 0;
+    *hisBufferNextPosition = 0;
     fclose(f);
     return 1;
 }

@@ -31,19 +31,20 @@ int main(void){
     char temp_string[MAX_LINE]; /* temporarily stores input */
     size_t histSize = countHistory();/* stores number of lines in history */
     char *historyBuffer[10]; /* holds 10 values before writing them to file*/
-    size_t hisBufferPoint = 0; /* point at next location(for new input)*/
+    size_t hisBufferNextPosition = 0; /* point at next location(for new input)*/
     
     //
     while (should_run) {
         printf("osh>");
         //my code
         
-        scanf("%80s",temp_string); /* take input */
+        //scanf("%[^\n]s",temp_string); /* take input */
+        gets(temp_string);
+        writeToBuffer(historyBuffer, &hisBufferNextPosition, temp_string); /* stores string at hisBuff[NextPos] and updates NextPos*/
         stringTokeniser(args,temp_string); /* parse string and save
                                             into args*/
-        writeToBuffer(historyBuffer, &hisBufferPoint, temp_string); /* stores string at hisBuff[BuffPt] and increments BuffPt*/
         histSize++; /* increment history size*/
-        executeProgram(args, histSize, historyBuffer, &hisBufferPoint);
+        executeProgram(args, histSize, historyBuffer, &hisBufferNextPosition);
         //
         
         fflush(stdout);

@@ -11,6 +11,6 @@
 
 #include <stdio.h>
 void executeProgram(char*[], size_t, char *[], size_t*);
-void printLast10Lines(char *historyBuffer[], size_t *hisBufferPoint, size_t hist_size);
-//void printLast10Lines(size_t hist_size, char *historyBuffer[], size_t *hisBufferPoint);
+void printLast10Lines(char *historyBuffer[], size_t *hisBufferNextPosition, size_t hist_size);
+//void printLast10Lines(size_t hist_size, char *historyBuffer[], size_t *hisBufferNextPosition);
 #endif /* executeFunctions_h */
