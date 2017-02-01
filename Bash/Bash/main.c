@@ -44,7 +44,7 @@ int main(void){
         stringTokeniser(args,temp_string); /* parse string and save
                                             into args*/
         histSize++; /* increment history size*/
-        executeProgram(args, histSize, historyBuffer, &hisBufferNextPosition);
+        executeProgram(args, histSize, historyBuffer, &hisBufferNextPosition, &should_run);
         //
         
         fflush(stdout);
@@ -56,7 +56,6 @@ int main(void){
          *  Explain your steps as comments in the code itself.
          */
     }
-    //writeToHistoryFile(historyBuffer, hisBufferPoint);
-    printf("closing main");
+    writeToHistoryFile(historyBuffer, &hisBufferNextPosition);
     return 0;
 }

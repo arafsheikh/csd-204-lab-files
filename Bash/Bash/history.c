@@ -25,7 +25,7 @@ void stringTokeniser(char*args[], char s[]){ /*splits s[] into words and saves i
     while (token) {
         //printf("token: %s\n", token);
         args[i++] = token;
-        token = strtok(NULL, " ");
+        token = strtok('\0', " ");
     }
     args[i] = NULL;
 }

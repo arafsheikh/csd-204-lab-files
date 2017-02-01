@@ -10,7 +10,8 @@
 #define executeFunctions_h
 
 #include <stdio.h>
-void executeProgram(char*[], size_t, char *[], size_t*);
+void executeProgram(char* args[], size_t hist_size, char *historyBuffer[], size_t *hisBufferNextPosition, int* should_run);
+void execLastCommand(char *historyBuffer[], size_t *hisBufferNextPosition, size_t hist_size, int flag, int* should_run);
 void printLast10Lines(char *historyBuffer[], size_t *hisBufferNextPosition, size_t hist_size);
 //void printLast10Lines(size_t hist_size, char *historyBuffer[], size_t *hisBufferNextPosition);
 #endif /* executeFunctions_h */
