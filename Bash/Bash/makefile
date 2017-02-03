@@ -3,11 +3,11 @@ CFLAGS = -I. -Wall
 LFLAGS = -lm
 PROG = out
 
-all: history.o executeFunctions.o
-	$(CC) -o $(PROG) $(CFLAGS) main.c history.o executeFunctions.o
+all: history.o execute.o
+	$(CC) -o $(PROG) $(CFLAGS) main.c history.o execute.o
 
-executeFunctions.o: executeFunctions.c
-	$(CC) $(CFLAGS) -c executeFunctions.c
+execute.o: execute.c
+	$(CC) $(CFLAGS) -c execute.c
 
 history.o: history.c
 	$(CC) $(CFLAGS) -c history.c

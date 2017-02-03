@@ -1,15 +1,19 @@
 //
 //  history.h
-//  Bash2
+//  Bash_final
 //
-//  Created by preetham chandra on 29/01/17.
+//  Created by preetham chandra on 02/02/17.
 //  Copyright © 2017 preetham chandra. All rights reserved.
 //
 
+#ifndef history_h
 #define history_h
 
 #include <stdio.h>
-void stringTokeniser(char*[], char[]);
-size_t  countHistory();
-void writeToBuffer(char*[], size_t*, char[]);
-int writeToHistoryFile(char*[], size_t*);
+#define HISTORY_FILE "history.txt"
+size_t countHistory();
+void writeToHistoryBuffer(char *temp_string, char **historyBuffer, size_t *hisBufferNextPosition);
+void writeToHistoryFile(char **historyBuffer, size_t *hisBufferNextPosition);
+void printLast10Lines(size_t historyCount);
+char* retriveCommandFromHistory(int lineNumber, size_t historyCount);
+#endif /* history_h */

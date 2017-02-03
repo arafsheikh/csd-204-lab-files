@@ -14,13 +14,8 @@
 #include <unistd.h>
 #include <string.h>
 #include "history.h"
-#include "executeFunctions.h"
+#include "execute.h"
 #define MAX_LINE 80 /* The maximum length command */
-
-//my code
-
-void stringTokeniser(char*[], char[]);
-//
 
 int main(void){
     char *args[MAX_LINE/2 + 1]; /* command line arguments */
@@ -29,7 +24,8 @@ int main(void){
     //my variables
     
     char temp_string[MAX_LINE]; /* temporarily stores input */
-    size_t histSize = countHistory();/* stores number of lines in history */
+    size_t historyCount = countHistory();
+    printf("%zu\n", historyCount);
     char *historyBuffer[10]; /* holds 10 values before writing them to file*/
     size_t hisBufferNextPosition = 0; /* point at next location(for new input)*/
     
@@ -38,13 +34,15 @@ int main(void){
         printf("osh>");
         //my code
         
-        //scanf("%[^\n]s",temp_string); /* take input */
         gets(temp_string);
-        writeToBuffer(historyBuffer, &hisBufferNextPosition, temp_string); /* stores string at hisBuff[NextPos] and updates NextPos*/
-        stringTokeniser(args,temp_string); /* parse string and save
-                                            into args*/
-        histSize++; /* increment history size*/
-        executeProgram(args, histSize, historyBuffer, &hisBufferNextPosition, &should_run);
+        
+        executeProgram(args, &should_run, temp_string, &historyCount, historyBuffer, &hisBufferNextPosition);
+        
+        //executeProgram2(temp_string, args, &should_run, historyBuffer, &hisBufferNextPosition);
+        //writeToBuffer(historyBuffer, &hisBufferNextPosition, temp_string); /* stores string at hisBuff[NextPos] and updates NextPos*/
+        //stringTokeniser(args,temp_string); /* parse string and save into args*/
+        //histSize++; /* increment history size*/
+        //executeProgram(args, histSize, historyBuffer, &hisBufferNextPosition, &should_run);
         //
         
         fflush(stdout);
