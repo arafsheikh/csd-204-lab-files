@@ -71,14 +71,46 @@ void readFromHistory(int lines) {
 }
 
 /*
- * Function responsible to run any command from the shell
+ * Fetch the string on the given line number from the history file
  */
-void execCommand(char* str, int detach) {
-    if (!strcmp(str, "history")) {
-        readFromHistory(10);
+char* getLine(int number) {
+    // base case
+    if (number <= 0)
+       return NULL;
+
+    FILE *f = fopen(HISTORY_FILE, "r");
+    if (f == NULL) {
+        printf("Error opening file\n");
+        exit(1);
     }
-    else {
-        pid_t pid = fork();
+    char *line; size_t len;
+    while (number--) {
+        getline(&line, &len, f);
+    }
+    return line;
+}
+
+/*
+ * Get the total number of lines in the history file
+ */
+int getTotalLines() {
+    FILE *f = fopen(HISTORY_FILE, "r");
+    if (f == NULL) {
+        printf("Error opening file\n");
+        exit(1);
+    }
+    int count = 0; // line count in file
+    char *line; size_t len;
+    while (getline(&line, &len, f) != EOF)
+        count++;
+    return count;
+}
+
+/*
+ * Execute the given string as a command
+ */
+void mexec (char* str, int detach) {
+    pid_t pid = fork();
         if (pid == 0) {
             // child process
             if (execvp(&str[0], &str) == -1) {
@@ -100,5 +132,26 @@ void execCommand(char* str, int detach) {
             printf("fork() failed!\n");
             exit(2);
         }
+}
+
+/*
+ * Function responsible to run any command from the shell
+ */
+void execCommand(char* str, int detach) {
+    if (!strcmp(str, "history")) {
+        readFromHistory(10);
+    }
+    else if (str[0] == '!' && str[1] == '!') {
+        printf("%s", getLine(getTotalLines() - 1));
+        mexec(getLine(getTotalLines() - 1), 0);
+    }
+    else if (str[0] == '!') {
+        char* temp = str;
+        temp++;
+        printf("%s", getLine(atoi(temp)));
+        mexec(getLine(atoi(temp)), 0);
+    }
+    else {
+        mexec(str, detach);
     }
 }
