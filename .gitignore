@@ -1,3 +1,6 @@
+# Hidden file
+.*
+
 # Object files
 *.o
 *.ko
